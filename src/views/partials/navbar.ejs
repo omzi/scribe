@@ -1,0 +1,88 @@
+  <%- include('messages') %>
+
+  <header class="header-bar mb-3">
+    <% if (user) { %>
+    <div class="d-flex align-items-center justify-content-between p-3">
+    <% } else { %>
+    <div class="container d-flex align-items-center justify-content-between p-3">
+    <% } %>
+      <h4 class="my-0 mr-md-auto font-weight-normal d-flex align-items-center">
+        <img loading="lazy" class="logo" src="/images/logo-white.png">
+        <a href="/" class="text-white logo">Scribe</a>
+      </h4>
+
+      <% if (user) { %>
+        <div class="d-flex align-items-center flex-row my-3 my-md-0">
+          <a class="text-white mr-3 header-search-icon" title="Search" data-toggle="tooltip" data-placement="bottom"><i class="material-icons">search</i></a>
+          <!-- <a class="text-white mr-3 header-chat-icon" title="Chat" data-toggle="tooltip" data-placement="bottom"><i class="material-icons">chat_bubble</i></a> -->
+          <!-- <a class="text-white mr-3 header-starred-icon" title="Starred" data-toggle="tooltip" data-placement="bottom"><i class="material-icons">star</i></a> -->
+          <!-- <div class="themeSwitcher__toggle mr-3">
+            <input type="checkbox" class="themeSwitcher__checkbox" id="themeSwitcher" checked="">
+            <div class="themeSwitcher__curtain"></div>
+            <label for="themeSwitcher" class="themeSwitcher__label">
+              <span class="themeSwitcher__ball"></span>
+            </label>
+          </div> -->
+          <a href="/@<%= user.username %>" class="mr-3"><img loading="lazy" title="My Profile" data-toggle="tooltip" data-placement="bottom" style="width: 32px; height: 32px; border-radius: 16px;" src="<%= user.avatar %>"></a>
+          <a class="btn btn-sm btn-primary mr-3" href="/create-post">Create Post</a>
+          <form action="/logout" method="POST" class="d-inline">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn btn-sm btn-secondary">Sign Out</button>
+          </form>
+        </div>
+      <% } else { %>
+        <div class="d-flex align-items-center flex-row my-3 my-md-0">
+          <a class="text-white mr-3 header-search-icon" title="Search" data-toggle="tooltip" data-placement="bottom"><i
+              class="material-icons">search</i></a>
+          <form action="/login" method="POST" class="mb-0">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          
+            <!-- For Desktop -->
+            <div class="d-none d-lg-block">
+              <div class="row align-items-center">
+                <div class="col-md mr-0 pr-md-0 mb-3 mb-md-0">
+                  <input name="desktopLoginUsername" class="form-control form-control-sm" type="text" placeholder="Username">
+                </div>
+                <div class="col-md mr-0 pr-md-0 mb-3 mb-md-0">
+                  <input name="desktopLoginPassword" class="form-control form-control-sm" type="password" placeholder="Password">
+                </div>
+                <div class="col-md-auto">
+                  <button type="submit" class="btn btn-primary btn-sm">Sign In</button>
+                </div>
+              </div>
+            </div>
+          </form>
+          
+          <form action="/login" method="POST" class="mb-0 d-block d-lg-none">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <!-- For Tablets & Smartphones -->
+            <div class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown"><strong>Sign In</strong> <span class="caret"></span></a>
+              <ul id="loginDropdown" class="dropdown-menu  dropdown-menu-right">
+                <li>
+                  <div class="row">
+                    <div class="col-sm">
+                      <div class="form-group">
+                        <label class="sr-only" for="mobileLoginUsername">Username</label>
+                        <input type="text" name="mobileLoginUsername" class="form-control form-control-md mb-3"
+                          id="mobileLoginUsername" placeholder="Username" required>
+                      </div>
+                      <div class="form-group">
+                        <label class="sr-only" for="mobileLoginPassword">Password</label>
+                        <input type="password" name="mobileLoginPassword" class="form-control form-control-md mb-3"
+                          id="mobileLoginPassword" placeholder="Password" required>
+                        <div class="help-block text-right mb-3"><a tabindex="1">Forgot your password?</a></div>
+                      </div>
+                      <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Sign In To Scribe</button>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </form>
+        </div>
+      <% } %>
+    </div>
+  </header>

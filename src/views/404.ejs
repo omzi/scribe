@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Page Not Found ;(</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      background: #002451;
+      color: #d3d7de;
+      font-family: "monospace", "Courier New";
+      font-size: 18px;
+      line-height: 1.5em;
+      cursor: default
+    }
+
+    .code-area {
+      position: absolute;
+      width: 380px;
+      min-width: 380px;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%) scale(.85);
+      transform: translate(-50%, -50%) scale(.85);
+    }
+
+    .code-area>span {
+      display: block
+    }
+
+    @media screen and (max-width:320px) {
+      .code-area {
+        font-size: 4.5vw;
+        min-width: auto;
+        width: 95%;
+        margin: auto;
+        padding: 5px;
+        padding-left: 10px;
+        line-height: 6.5vw
+      }
+    }
+
+    .buttons-con .action-link-wrap {
+      margin-top: 40px
+    }
+
+    .buttons-con .action-link-wrap a {
+      background: #2196F3;
+      padding: 8px 25px;
+      border-radius: 35px;
+      color: #FFF;
+      font-weight: bold;
+      font-size: 14px;
+      transition: all .3s linear;
+      cursor: pointer;
+      text-decoration: none;
+      margin-right: 10px
+    }
+
+    .buttons-con .action-link-wrap a:hover {
+      background: #00ffff;
+      color: #002451;
+    }
+  </style>
+</head>
+<body>
+  <div class="code-area">
+    <span style="color:#777;font-style:italic">
+      // 404 // Page Not Found!
+    </span>
+    <span>
+      <span style="color: mediumpurple;">
+        if
+      </span>
+      (<span style="color: cyan;">!</span><span style="color: palevioletred;">pageExists</span>)
+      {
+    </span>
+    <span>
+      <span style="padding-left:15px;color: mediumpurple;">
+        <i style="width:10px;display:inline-block"></i>throw
+      </span>
+      <span style="color: cyan;">new</span>
+      <span style="color: peachpuff;">Error</span><span>(<span style="color: greenyellow;">"You're lost!"</span>);</span>
+      <span style="display:block">}</span>
+    </span>
+    <div class="buttons-con">
+      <div class="action-link-wrap">
+        <a onclick="history.back(-1)" class="link-button link-back-button">Go Back</a><br><br>
+        <a onclick="javascript:window.location.href='/'" class="link-button">Go to Home Page</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

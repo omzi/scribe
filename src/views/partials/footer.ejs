@@ -1,0 +1,24 @@
+  <!-- Footer -->
+  <footer class="text-center text-light py-3">
+    <hr class="footer__divider">
+    <p>Copyright &copy; 2023, <a href="/" class="text-light">Scribe</a>.
+      Crafted with <span class="footer__heart">❤</span> & <a href="https://appwrite.io?ref=scribe" target="_blank">
+        <img src="/images/appwrite.svg" class="appwrite" alt="Appwrite">
+      </a> by <a href="https://twitter.com/0xOmzi" target="_blank">oʍʐɨ</a></p>
+  </footer>
+
+  <script src="/js/jquery.3.3.1.min.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script>$('[data-toggle="tooltip"]').tooltip()</script>
+  <script>
+    // Reset forms on browsers autofill them
+    const resetForm = setInterval(() => {
+      Array.from(document.forms).forEach(form => form.reset());
+    });
+
+    setTimeout(() => clearInterval(resetForm), 750);
+  </script>
+  <script src="/js/iziToast.min.js"></script>
+  <%- include('showMessages') %>
+  <script src="/js/main.bundle.js"></script>

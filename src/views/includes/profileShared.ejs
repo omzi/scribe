@@ -1,0 +1,22 @@
+<h2>
+      <img loading="lazy" class="avatar-small" src="<%= profileUser.avatar %>"> <%= profileUser.username %>
+      <% if (user && !isUserOnOwnProfile) { %>
+        <% if (isFollowing) { %>
+          <form class="ml-2 d-inline" action="/removeFollowerFrom/<%= profileUser.username %>" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn btn-danger btn-sm">Stop Following <i class="material-icons">close</i></button>
+          </form>
+        <% } else { %>
+           <form class="ml-2 d-inline" action="/addFollowerTo/<%= profileUser.username %>" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <button class="btn btn-primary btn-sm">Follow <i class="material-icons">person_add</i></button>
+           </form>
+        <% } %>
+      <% } %>
+    </h2>
+
+    <div class="profile-nav nav nav-tabs pt-2 mb-4">
+      <a href="/@<%= profileUser.username %>" class="profile-nav-link nav-item nav-link <%= activeTab === 'profilePosts' ? 'active' : '' %>"><strong><%= postCount %></strong> Posts</a>
+      <a href="/@<%= profileUser.username %>/followers" class="profile-nav-link nav-item nav-link  <%= activeTab === 'profileFollowers' ? 'active' : '' %>"><strong><%= followersCount %></strong> Followers</a>
+      <a href="/@<%= profileUser.username %>/following" class="profile-nav-link nav-item nav-link  <%= activeTab === 'profileFollowing' ? 'active' : '' %>"><strong><%= followingCount %></strong> Following</a>
+    </div>

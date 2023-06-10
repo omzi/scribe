@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/header') %>
+</head>
+<body class="dark">
+  <%- include('partials/navbar') %>
+
+  <div class="container py-md-5 container--narrow footer-padding">
+    <%- include('includes/profileShared') %>
+
+      <% if (following.length) { %>
+        <div class="list-group">
+          <% following.forEach(followedUser => { %>
+            <a href="/@<%= followedUser.username %>" class="list-group-item list-group-item-action">
+              <img loading="lazy" class="avatar-tiny" src="<%= followedUser.avatar %>">
+              <%= followedUser.username %>
+            </a>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <div class="text-center">
+          <img loading="lazy" src="/images/no-post-state.png" alt="...">
+          <p><b><%= profileUser.username %></b> is not following anyone yet</p>
+        </div>
+      <% } %>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

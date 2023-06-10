@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/header') %>
+</head>
+<body class="dark">
+  <%- include('partials/navbar') %>
+  
+  <div class="container py-md-5 container--narrow footer-padding">
+    <% if (feedPosts.length) { %>
+      <h3 class="text-center mb-4">The Latest Posts From Those You Follow</h3>
+      <!--<div class="card">
+            <div class="card-content">
+              <h6 class="category text-danger">
+                <i class="material-icons">trending_up</i> Trending
+              </h6>
+              <h4 class="card-title">
+                <a href="link">To Grow Your Business Start Focusing on Your Employees</a>
+              </h4>
+              <div class="footer">
+                <div class="author">
+                  <a href="link">
+                    <img src="assets/img/faces/christian.jpg" alt="..." class="avatar img-raised">
+                    <span>Lord Alex</span>
+                  </a>
+                </div>
+                <div class="stats">
+                  <i class="material-icons">favorite</i> 342 ·
+                  <i class="material-icons">chat_bubble</i> 45
+                </div>
+              </div>
+            </div>
+
+          </div>-->
+      <div class="list-group">
+        <% feedPosts.forEach(post => { %>
+          <a href="/@<%= post.author.username %>/post/<%= post.slug %>" target="_blank" class="list-group-item list-group-item-action">
+            <h4><strong><%= post.title %></strong></h4>
+            <hr>
+            <img loading="lazy" class="avatar-tiny" src="<%= post.author.avatar %>"> <strong><%= post.author.username %></strong> ✦ <%= helpers.formatDate(new Date(post.$createdAt)) %>
+            <hr>
+            <div class="post-meta">
+              <% if (post.visibility === 'public') { %>
+                <div class="visibility-status public">
+                  <i class="material-icons mr-1">visibility</i>
+                  <span>Publicly Visible</span>
+                </div>
+              <% } %>
+              <% if (post.visibility === 'followers') { %>
+                <div class="visibility-status followers">
+                  <i class="material-icons mr-1">visibility_off</i>
+                  <span>Visible To Followers Only</span>
+                </div>
+              <% } %>
+              <% if (post.visibility === 'private') { %>
+                <div class="visibility-status private">
+                  <i class="material-icons mr-1">face</i>
+                  <span>Visible To You</span>
+                </div>
+              <% } %>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="text-center">
+        <h2>Hello, <strong><%= user.username %></strong>! Your feed is empty.</h2>
+        <p class="lead text-light">Your feed displays the latest posts from the people you follow. If you don&rsquo;t have any friends to follow, that&rsquo;s okay. You can use the &ldquo;Search&rdquo; feature in the top menu bar to find content written by people with similar interests and then follow them.</p>
+        <img src="/images/empty-feed-state.png" alt="">
+      </div>
+
+      <!-- TODO: Add a list of random users for current user to follow -->
+    <% } %>
+  </div>
+  
+  <%- include('partials/footer') %>
+</body>
+</html>

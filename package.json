@@ -1,0 +1,120 @@
+{
+  "name": "scribe",
+  "version": "1.0.0",
+  "description": "A modern social writing app built on Appwrite ✍",
+  "main": "start.js",
+  "scripts": {
+    "build": "npm run build:frontend && npm run build:server",
+    "build:frontend": "webpack",
+    "build:server": "ttsc -p . && npm run copy:files",
+    "copy:files": "node scripts/copyFiles.js",
+    "dev": "start npm run dev:frontend && start npm run dev:server",
+    "dev:frontend": "webpack --watch",
+    "dev:server": "nodemon -r tsconfig-paths/register src/start.ts",
+    "lint:check": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
+    "prepare": "husky install",
+    "prettier:check": "prettier --check src/**/*.{ts,json}",
+    "prettier:fix": "prettier --write src/**/*.{ts,json}",
+    "start": "node ./build/start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/omzi/scribe.git"
+  },
+  "keywords": [
+    "appwrite",
+    "node",
+    "typescript",
+    "social",
+    "feed",
+    "writing",
+    "realtime"
+  ],
+  "author": "Omezibe Obioha <obiohaomezibe@gmail.com> (https://github.com/omzi)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/omzi/scribe/issues"
+  },
+  "homepage": "https://github.com/omzi/scribe#readme",
+  "dependencies": {
+    "appwrite": "^11.0.0",
+    "axios": "0.21.1",
+    "bcryptjs": "2.4.3",
+    "colors": "1.4.0",
+    "compression": "1.7.4",
+    "connect-flash": "0.1.1",
+    "cors": "2.8.5",
+    "csurf": "1.11.0",
+    "dompurify": "2.3.0",
+    "dotenv": "10.0.0",
+    "ejs": "3.1.6",
+    "express": "4.17.1",
+    "express-async-errors": "^3.1.1",
+    "express-session": "1.17.2",
+    "highlight.js": "11.1.0",
+    "jsonwebtoken": "8.5.1",
+    "md5": "2.3.0",
+    "node-appwrite": "^9.0.0",
+    "safe-marked": "5.0.0",
+    "sanitize-html": "2.4.0",
+    "slugify": "1.5.3",
+    "ttypescript": "^1.5.15",
+    "typescript": "^4.9.4",
+    "typescript-transform-paths": "^3.4.6",
+    "validator": "13.6.0"
+  },
+  "devDependencies": {
+    "@babel/core": "7.14.8",
+    "@babel/preset-env": "7.14.8",
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-conventional": "^17.4.2",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/compression": "^1.7.2",
+    "@types/connect-flash": "^0.0.37",
+    "@types/csurf": "^1.11.2",
+    "@types/express": "^4.17.17",
+    "@types/express-session": "^1.17.7",
+    "@types/fs-extra": "^11.0.1",
+    "@types/md5": "^2.3.2",
+    "@types/node": "^20.2.6",
+    "@types/sanitize-html": "^2.9.0",
+    "@types/validator": "^13.7.17",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "babel-loader": "8.2.2",
+    "eslint": "^8.33.0",
+    "eslint-config-prettier": "^8.6.0",
+    "fs-extra": "^11.1.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.0",
+    "morgan": "1.10.0",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.3",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.2",
+    "webpack": "5.46.0",
+    "webpack-cli": "4.7.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "git pull upstream dev",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,json}": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "engines": {
+    "node": "14.x"
+  }
+}

@@ -1,0 +1,27 @@
+<script>
+  // Show success, error & info messages from BackEnd
+  const success = document.querySelectorAll('[success]');
+  const errors = document.querySelectorAll('[error]');
+  const info = document.querySelectorAll('[info]');
+
+  success.length
+    && success.forEach((s, i) => {
+      setTimeout(() => {
+        iziToast.success({ position: 'bottomLeft', timeout: 5e3, message: s.innerText });
+      }, i * 750);
+    })
+
+  errors.length
+    && errors.forEach((e, i) => {
+      setTimeout(() => {
+        iziToast.error({ position: 'bottomLeft', timeout: 5e3, message: e.innerText });
+      }, i * 750);
+    });
+
+  info.length
+    && info.forEach((ie, i) => {
+      setTimeout(() => {
+        iziToast.info({ position:'bottomLeft', timeout:5e3, message: ie.innerText });
+      }, i * 750);
+    });
+</script>

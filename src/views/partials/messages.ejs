@@ -1,0 +1,17 @@
+<% if (successMessages.length > 0) { %>
+  <% for (let message of successMessages ) { %>
+    <div style="display: none; position: fixed; top: -100%;" success><%= message %></div>
+  <% } %>
+<% } %>
+
+<% if (errorMessages.length > 0) { %>
+  <% for (let message of errorMessages ) { %>
+    <div style="display: none; position: fixed; top: -100%;" error><%= message %></div>
+  <% } %>
+<% } %>
+
+<% if (infoMessages.length > 0) { %>
+  <% for (let message of infoMessages ) { %>
+    <div style="display: none; position: fixed; top: -100%;" info><%= message %></div>
+  <% } %>
+<% } %>

@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <%- include('partials/header') %>
+  <link rel="stylesheet" href="/css/inscrybmde.min.css">
+</head>
+<body class="dark">
+  <%- include('partials/navbar') %>
+  
+  <div class="container py-md-5 footer-padding">
+    <% if (!updatedUrl) { %>
+      <a href="/@<%= post.author.username %>/post/<%= post.slug %>" class="btn btn-info mb-3 link">
+        <i class="material-icons">keyboard_arrow_left</i> Back To Post
+      </a>
+    <% } %>
+    <form action="/@<%= post.author.username %>/posts/edit/<%= post.slug %>" method="POST">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+      <div class="form-group">
+        <label for="title" class="text-muted mb-1"><small>Title</small></label>
+        <input required name="title" id="title" class="form-control form-control-lg form-control-title" type="text" value="<%= post.title %>" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label for="body" class="text-muted mb-1"><small>Body Content</small></label>
+        <textarea required name="body" id="body" class="body-content tall-textarea form-control" type="text"><%= post.body %></textarea>
+      </div>
+      
+      <button class="btn btn-primary mt-4">Update Post</button>
+      <% if (updatedUrl) { %>
+        <a href="<%= updatedUrl %>" target="_blank" class="btn btn-info text-dark float-right mt-4 link">
+          View Post
+          <i class="material-icons">call_made</i>
+        </a>
+      <% } %>
+    </form>
+  </div>
+  
+  <%- include('partials/footer') %>
+  <script src="/js/inscrybmde.min.js"></script>
+  <script>
+    const inscrybmde = new InscrybMDE({
+      element: document.getElementById("body"),
+      forceSync: true,
+      placeholder: "Enter your post content here...",
+      autofocus: true,
+      promptURLs: true,
+      toolbar: [{
+        name: "bold",
+        action: InscrybMDE.toggleBold,
+        className: "material-icons",
+        title: "Bold",
+        iconText: 'format_bold'
+      },{
+        name: "italic",
+        action: InscrybMDE.toggleItalic,
+        className: "material-icons",
+        title: "Italic",
+        iconText: 'format_italic'
+      },{
+        name: "strikethrough",
+        action: InscrybMDE.toggleStrikethrough,
+        className: "material-icons",
+        title: "Strikethrough",
+        iconText: 'format_strikethrough'
+      },{
+        name: "heading",
+        action: InscrybMDE.toggleHeadingSmaller,
+        className: "material-icons",
+        title: "Heading",
+        iconText: 'format_size'
+      },
+      "|",
+      {
+        name: "quote",
+        action: InscrybMDE.toggleBlockquote,
+        className: "material-icons",
+        title: "Quote",
+        iconText: 'format_quote'
+      },{
+        name: "bulletList",
+        action: InscrybMDE.toggleUnorderedList,
+        className: "material-icons",
+        title: "Bullet List",
+        iconText: 'format_list_bulleted'
+      },{
+        name: "numberedList",
+        action: InscrybMDE.toggleOrderedList,
+        className: "material-icons",
+        title: "Numbered List",
+        iconText: 'format_list_numbered'
+      },
+      "|",
+      {
+        name: "link",
+        action: InscrybMDE.drawLink,
+        className: "material-icons",
+        title: "Create Link",
+        iconText: 'insert_link'
+      },{
+        name: "image",
+        action: InscrybMDE.drawImage,
+        className: "material-icons",
+        title: "Insert Image",
+        iconText: 'image'
+      },{
+        name: "table",
+        action: InscrybMDE.drawTable,
+        className: "material-icons",
+        title: "Insert Table",
+        iconText: 'view_module'
+      },{
+        name: "horizontalRule",
+        action: InscrybMDE.drawHorizontalRule,
+        className: "material-icons",
+        title: "Add Horizontal Rule",
+        iconText: 'remove'
+      },{
+        name: "code",
+        action: InscrybMDE.toggleCodeBlock,
+        className: "material-icons",
+        title: "Insert Code",
+        iconText: 'code'
+      },
+      "|",
+      {
+        name: "undo",
+        action: InscrybMDE.undo,
+        className: "material-icons",
+        title: "Undo",
+        iconText: 'undo'
+      },{
+        name: "redo",
+        action: InscrybMDE.redo,
+        className: "material-icons",
+        title: "Redo",
+        iconText: 'redo'
+      },
+      "|",
+      {
+        name: "togglePreview",
+        action: InscrybMDE.togglePreview,
+        className: "material-icons",
+        title: "Toggle Preview",
+        iconText: 'remove_red_eye'
+      },{
+        name: "fullScreen",
+        action: InscrybMDE.toggleFullScreen,
+        className: "material-icons",
+        title: "Full Screen",
+        iconText: 'fullscreen'
+      },
+      "|",
+      {
+        name: "shortcuts",
+        action: function customFunction(editor){
+          // Add your own code
+        },
+        className: "material-icons",
+        title: "Shortcuts",
+        iconText: 'help'
+      },{
+        name: "markdownGuide",
+        action: function customFunction(editor){
+          // Add your own code
+        },
+        className: "material-icons",
+        title: "Markdown Guide",
+        iconText: 'assignment'
+      }],
+    });
+  </script>
+</body>
+</html>
