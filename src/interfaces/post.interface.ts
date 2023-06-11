@@ -10,6 +10,8 @@ export interface PostDocument extends Models.Document, PostData {
 	author: string;
 	slug: string;
 	search: string;
+	likesCount: number;
+	bookmarksCount: number;
 }
 
 export interface PostQueryDocument extends Models.Document, PostData {
@@ -19,6 +21,10 @@ export interface PostQueryDocument extends Models.Document, PostData {
 	};
 	slug: string;
 	search: string;
+	likesCount: number;
+	bookmarksCount: number;
+	hasUserLiked: boolean;
+	hasUserBookmarked: boolean;
 	isVisitorAuthor: boolean;
 	isVisitorFollower: boolean;
 }

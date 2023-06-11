@@ -87,12 +87,19 @@ export const authRequired = (req: Request, res: Response, next: NextFunction) =>
 	}
 };
 
+export const requestAuthRequired = (req: Request, res: Response, next: NextFunction) => {
+	if (req.session.user) {
+		next();
+	} else {
+		res.status(401).json({ status: 'failure', message: 'Unauthorised! You must be logged in to proceed.' });
+	}
+};
+
 export const ifUserExists = async (req: Request, res: Response, next: NextFunction) => {
 	const user = await User.findByUsername(req.params.username);
 
 	if (user) {
 		req.profileUser = user;
-		console.log('req.profileUser ::', req.profileUser);
 		next();
 	} else res.render('404');
 };
@@ -141,7 +148,7 @@ export const userProfile = (req: Request, res: Response) => {
 			context.followersCount = req.followersCount;
 			context.followingCount = req.followingCount;
 
-			// console.log('User Posts ::', posts);
+			console.log('User Posts ::', posts);
 
 			res.render('profile', context);
 		})

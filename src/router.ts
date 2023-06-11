@@ -1,7 +1,23 @@
 import { Router } from 'express';
-import { home, register, login, logout, doesUsernameExist, doesEmailExist, authRequired, ifUserExists, userProfile, sharedProfileData, userProfileFollowers, userProfileFollowing } from '@controllers/auth.controller';
+import {
+	home,
+	register,
+	login,
+	logout,
+	doesUsernameExist,
+	doesEmailExist,
+	authRequired,
+	requestAuthRequired,
+	ifUserExists,
+	userProfile,
+	sharedProfileData,
+	userProfileFollowers,
+	userProfileFollowing
+} from '@controllers/auth.controller';
 import { viewCreatePost, createPost, viewPost, viewUpdatePost, updatePost, deletePost, search } from '@controllers/post.controller';
 import { addFollower, removeFollower } from '@controllers/follow.controller';
+import { addLike, removeLike } from '@controllers/like.controller';
+import { addBookmark, removeBookmark } from '@controllers/bookmark.controller';
 
 class RootRouter {
 	public router: Router;
@@ -38,6 +54,14 @@ class RootRouter {
 		// Follow Routes
 		this.router.post('/addFollowerTo/:username([a-z0-9]{3,30})', authRequired, addFollower);
 		this.router.post('/removeFollowerFrom/:username([a-z0-9]{3,30})', authRequired, removeFollower);
+
+		// Like Routes
+		this.router.post('/addLikeTo/:postId', requestAuthRequired, addLike);
+		this.router.post('/removeLikeFrom/:postId', requestAuthRequired, removeLike);
+
+		// Bookmark Routes
+		this.router.post('/addBookmarkTo/:postId', requestAuthRequired, addBookmark);
+		this.router.post('/removeBookmarkFrom/:postId', requestAuthRequired, removeBookmark);
 	}
 }
 

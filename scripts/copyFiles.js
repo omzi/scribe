@@ -7,7 +7,7 @@ const fs = require('fs-extra');
 		await fs.copy('src/views', 'build/views');
 
 		// Copy public folder
-		await fs.copy('frontend/public', 'build/public');
+		await fs.copy('src/public', 'build/public');
 
 		console.log('🎉', 'Files copied successfully!'.green.bold);
 	} catch (error) {

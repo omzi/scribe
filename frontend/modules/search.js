@@ -28,12 +28,12 @@ export default class Search {
         e.preventDefault();
         this.toggleOverlayVisibility();
       }
-      
+
       if (e.key === '/' && !this.searchOverlay.classList.contains('search-overlay--visible')) {
         this.toggleOverlayVisibility();
       }
 
-      if (e.key.startsWith('Esc') && this.searchOverlay.classList.contains('search-overlay--visible')) {
+      if (e.key && e.key.startsWith('Esc') && this.searchOverlay.classList.contains('search-overlay--visible')) {
         this.toggleOverlayVisibility();
       }
     })
@@ -50,7 +50,7 @@ export default class Search {
   showSearchLoader() {
     this.loaderIcon.classList.add('spinner-visible');
   }
-  
+
   hideSearchLoader() {
     this.loaderIcon.classList.remove('spinner-visible');
   }
@@ -126,11 +126,11 @@ export default class Search {
                 <div class="d-flex">
                   <div class="post-status mr-2">
                     <i class="material-icons mr-1">favorite</i>
-                    <span>${this.formatNumber(post.favoriteCount) || 0}</span>
+                    <span>${this.formatNumber(post.likesCount)}</span>
                   </div>
                   <div class="post-status">
                     <i class="material-icons mr-1">bookmark</i>
-                    <span>${this.formatNumber(post.bookmarkCount) || 0}</span>
+                    <span>${this.formatNumber(post.bookmarksCount)}</span>
                   </div>
                 </div>
               </div>
@@ -168,6 +168,7 @@ export default class Search {
   }
 
   formatNumber(number) {
+		if (number < 1000) return number;
     const suffixes = ['', 'K', 'M', 'B', 'T'];
     const suffixIndex = Math.floor(Math.log10(number) / 3);
     const formattedNumber = (number / Math.pow(10, suffixIndex * 3)).toFixed(1);

@@ -79,10 +79,10 @@ export class Follow {
 	}
 
 	static getFollowersByUserId(id: string) {
-		return new Promise<FollowDocument[] | { username: string; avatar: string }[]>(async (resolve, reject) => {
+		return new Promise<{ username: string; avatar: string }[]>(async (resolve, reject) => {
 			try {
 				const followers = (await appwrite.findDocuments(config.FOLLOWS_COLLECTION_ID, [Query.equal('followedId', id)])) as FollowDocument[];
-				if (followers.length === 0) return resolve(followers);
+				if (followers.length === 0) return resolve([]);
 
 				const arrayOfFollowersUserIds = followers.map(follower => follower.userId);
 				const followersData = (await appwrite.findDocuments(config.USERS_COLLECTION_ID, [Query.equal('$id', arrayOfFollowersUserIds)])) as UserDocument[];
@@ -102,10 +102,10 @@ export class Follow {
 	}
 
 	static getFollowedUsersByUserId(id: string) {
-		return new Promise<FollowDocument[] | { username: string; avatar: string }[]>(async (resolve, reject) => {
+		return new Promise<{ username: string; avatar: string }[]>(async (resolve, reject) => {
 			try {
 				const followings = (await appwrite.findDocuments(config.FOLLOWS_COLLECTION_ID, [Query.equal('userId', id)])) as FollowDocument[];
-				if (followings.length === 0) return resolve(followings);
+				if (followings.length === 0) return resolve([]);
 
 				const arrayOfFollowedUserIds = followings.map(follower => follower.followedId);
 				const followingsData = (await appwrite.findDocuments(config.USERS_COLLECTION_ID, [Query.equal('$id', arrayOfFollowedUserIds)])) as UserDocument[];

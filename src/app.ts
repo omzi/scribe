@@ -74,6 +74,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 // EJS helpers
 app.locals.helpers = {
 	capitalise: ([first, ...rest]: string) => first.toUpperCase() + rest.join(''),
+	formatNumber: (number: number) => {
+		if (number < 1000) return number;
+		const suffixes = ['', 'K', 'M', 'B', 'T'];
+		const suffixIndex = Math.floor(Math.log10(number) / 3);
+		const formattedNumber = (number / Math.pow(10, suffixIndex * 3)).toFixed(1);
+
+		return formattedNumber + suffixes[suffixIndex];
+	},
 	formatDate: (date: string | number | Date) => {
 		const formattedDate = new Date(date).toDateString();
 		const ordinal = (n: number) => (n < 11 || n > 13 ? [`${n}st`, `${n}nd`, `${n}rd`, `${n}th`][Math.min((n - 1) % 10, 3)] : `${n}th`);

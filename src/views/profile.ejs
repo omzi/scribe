@@ -40,11 +40,11 @@
                 <div class="d-flex">
                   <div class="post-status mr-2">
                     <i class="material-icons mr-1">favorite</i>
-                    <span>1.1K</span>
+                    <span><%= helpers.formatNumber(post.likesCount) %></span>
                   </div>
                   <div class="post-status">
                     <i class="material-icons mr-1">bookmark</i>
-                    <span>745</span>
+                    <span><%= helpers.formatNumber(post.bookmarksCount) %></span>
                   </div>
                 </div>
               </div>

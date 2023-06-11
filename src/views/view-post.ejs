@@ -6,7 +6,7 @@
 </head>
 <body class="dark">
   <%- include('partials/navbar') %>
-  
+
   <div class="container py-md-5 footer-padding">
     <div class="d-flex justify-content-between">
       <h2><%= post.title %></h2>
@@ -20,7 +20,7 @@
         </span>
       <% } %>
     </div>
-      
+
     <p class="text-white mb-4">
       <a href="/@<%= post.author.username %>"><img loading="lazy" class="avatar-tiny" src="<%= post.author.avatar %>"></a>
       Posted by <a href="/@<%= post.author.username %>"><%= post.author.username %></a> on <%= helpers.formatDate(new Date(post.$createdAt)) %>
@@ -47,22 +47,38 @@
       <% } %>
 
       <div class="d-flex">
-        <div class="post-status mr-2">
-          <i class="material-icons mr-1">favorite</i>
-          <span>1.1K</span>
-        </div>
-        <div class="post-status">
-          <i class="material-icons mr-1">bookmark</i>
-          <span>745</span>
-        </div>
-      </div>
+				<div class="post-status mr-2">
+					<i class="material-icons mr-1">favorite</i>
+					<span class="likes-count"><%= helpers.formatNumber(post.likesCount) %></span>
+				</div>
+				<div class="post-status">
+					<i class="material-icons mr-1">bookmark</i>
+					<span class="bookmarks-count"><%= helpers.formatNumber(post.bookmarksCount) %></span>
+				</div>
+			</div>
     </div>
 
     <div class="body-content">
       <%- convertMarkdown(post.body) %>
     </div>
+
+		<!-- Floating Buttons -->
+		<div class="floating-buttons-container">
+			<div class="floating-buttons">
+				<button class="floating-button <%= post.hasUserLiked ? 'liked' : 'unliked' %>" id="likeButton" data-post-like-status="<%= post.hasUserLiked %>" data-post-id="<%= post.$id %>">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+						<path d="M7 2C3.313 2 1 5.215 1 8.5c0 3.341 1.674 6.2 3.772 8.43 2.1 2.233 4.705 3.927 6.78 4.964a1 1 0 0 0 .895 0c2.076-1.037 4.68-2.73 6.782-4.964C21.326 14.7 23 11.84 23 8.5 23 5.22 20.729 2 17 2c-1.725 0-2.947.48-3.881 1.21-.44.344-.808.74-1.122 1.126a7.139 7.139 0 0 0-1.132-1.128C9.929 2.48 8.709 2 7 2Z"/>
+					</svg>
+				</button>
+				<button class="floating-button <%= post.hasUserBookmarked ? 'bookmarked' : 'unbookmarked' %>" id="bookmarkButton" data-post-bookmark-status="<%= post.hasUserBookmarked %>" data-post-id="<%= post.$id %>">
+					<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+						<path d="M5.5 1a2 2 0 0 0-2 2v19a1 1 0 0 0 1.519.855L12 18.615l6.981 4.24A1 1 0 0 0 20.5 22V3a2 2 0 0 0-2-2h-13Z"/>
+					</svg>
+				</button>
+			</div>
+		</div>
   </div>
-  
+
   <%- include('partials/footer') %>
   <script>
     document.querySelectorAll('pre').forEach(pre => {

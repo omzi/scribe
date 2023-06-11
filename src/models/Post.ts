@@ -1,5 +1,7 @@
 import { User } from '@models/User';
 import { Follow } from '@models/Follow';
+import { Like } from '@models/Like';
+import { Bookmark } from '@models/Bookmark';
 import slugify from 'slugify';
 import sanitizeHTML from 'sanitize-html';
 import { uuid } from '@utils/uuid';
@@ -120,12 +122,12 @@ export class Post {
 	}
 
 	static postsQuery(queries: string[], currentUserId?: string) {
-		return new Promise<PostQueryDocument[] | PostDocument[]>(async resolve => {
+		return new Promise<PostQueryDocument[]>(async resolve => {
 			// TODO: Populating author field with data (Pending when AppWrite has a populate query)
 
 			// console.log('postsQuery (queries) ::', queries);
 			const posts = (await appwrite.findDocuments(config.POSTS_COLLECTION_ID, queries)) as PostDocument[];
-			if (posts.length === 0) return resolve(posts);
+			if (posts.length === 0) return resolve([]);
 
 			const authorIds = posts.map(post => post.author);
 			const authorData = (await appwrite.findDocuments(config.USERS_COLLECTION_ID, [Query.equal('$id', authorIds)])) as UserDocument[];
@@ -137,10 +139,20 @@ export class Post {
 					const author = authorData.find(author => author.$id === (populatedPost.author as unknown as string))!;
 					populatedPost.isVisitorAuthor = false;
 					populatedPost.isVisitorFollower = false;
+					populatedPost.hasUserLiked = false;
+					populatedPost.hasUserBookmarked = false;
 
 					if (currentUserId) {
+						const [hasUserLiked, hasUserBookmarked, isVisitorFollower] = await Promise.all([
+							Like.hasUserLiked(populatedPost.$id, currentUserId),
+							Bookmark.hasUserBookmarked(populatedPost.$id, currentUserId),
+							Follow.isUserFollowing(author.$id, currentUserId)
+						]);
+
+						populatedPost.hasUserLiked = hasUserLiked;
+						populatedPost.hasUserBookmarked = hasUserBookmarked;
 						populatedPost.isVisitorAuthor = author.$id === currentUserId;
-						populatedPost.isVisitorFollower = await Follow.isUserFollowing(author.$id, currentUserId);
+						populatedPost.isVisitorFollower = isVisitorFollower;
 					}
 
 					populatedPost.author = {
@@ -153,6 +165,22 @@ export class Post {
 			);
 
 			resolve(populatedPosts);
+		});
+	}
+
+	static findPostById(postId: string, currentUserId: string) {
+		return new Promise<PostQueryDocument>(async (resolve, reject) => {
+			// Search for post with the postId
+			const posts = (await Post.postsQuery([Query.equal('$id', postId)], currentUserId)) as PostQueryDocument[];
+			if (posts.length === 0) return reject('Invalid post postId provided!');
+
+			const [post] = posts;
+
+			// Check post visibility states and know if a user is permitted to view it
+			if (post.visibility === 'private' && !post.isVisitorAuthor) return reject();
+			if (post.visibility === 'followers' && !post.isVisitorAuthor && !post.isVisitorFollower) return reject();
+
+			return resolve(post);
 		});
 	}
 
@@ -214,7 +242,7 @@ export class Post {
 		const viewablePosts = [];
 		for (let idx = 0; idx < posts.length; idx++) {
 			const post = posts[idx];
-			console.log('Post :>>', post);
+			// console.log('Post :>>', post);
 
 			// Check post visibility states and know if a user is permitted to view it
 			if (post.visibility === 'private' && !post.isVisitorAuthor) continue;

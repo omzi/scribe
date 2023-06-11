@@ -1,8 +1,11 @@
+import Like from "./modules/like";
+import Bookmark from "./modules/bookmark";
 import Search from "./modules/search";
 import RegistrationForm from './modules/registrationForm';
 
+if (document.getElementById('likeButton')) new Like();
+if (document.getElementById('bookmarkButton')) new Bookmark();
 if (document.querySelector('.header-search-icon')) new Search();
-// if (document.getElementById('chat-wrapper')) new Chat();
 if (document.getElementById('registration-form')) new RegistrationForm();
 
 const loginDropdown = document.getElementById('loginDropdown');
