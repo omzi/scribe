@@ -1,8 +1,8 @@
 {
   "name": "scribe",
   "version": "1.0.0",
-  "description": "A modern social writing app built on Appwrite ✍",
-  "main": "start.js",
+  "description": "A modern, real-time social writing app built on Appwrite ✍",
+  "main": "build/start.js",
   "scripts": {
     "build": "npm run build:frontend && npm run build:server",
     "build:frontend": "webpack",
@@ -16,7 +16,7 @@
     "prepare": "husky install",
     "prettier:check": "prettier --check src/**/*.{ts,json}",
     "prettier:fix": "prettier --write src/**/*.{ts,json}",
-    "start": "node ./build/start.js"
+    "start": "node ."
   },
   "repository": {
     "type": "git",
