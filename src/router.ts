@@ -18,6 +18,7 @@ import { viewCreatePost, createPost, viewPost, viewUpdatePost, updatePost, delet
 import { addFollower, removeFollower } from '@controllers/follow.controller';
 import { addLike, removeLike } from '@controllers/like.controller';
 import { addBookmark, removeBookmark } from '@controllers/bookmark.controller';
+import { realtime } from '@controllers/realtime.controller';
 
 class RootRouter {
 	public router: Router;
@@ -62,6 +63,9 @@ class RootRouter {
 		// Bookmark Routes
 		this.router.post('/addBookmarkTo/:postId', requestAuthRequired, addBookmark);
 		this.router.post('/removeBookmarkFrom/:postId', requestAuthRequired, removeBookmark);
+
+		// Realtime Route (SSE)
+		this.router.get('/realtime', realtime.init);
 	}
 }
 

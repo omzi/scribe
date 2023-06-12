@@ -5,7 +5,7 @@
 </head>
 <body class="dark">
   <%- include('partials/navbar') %>
-  
+
   <div class="container py-md-5 container--narrow footer-padding">
     <% if (feedPosts.length) { %>
       <h3 class="text-center mb-4">The Latest Posts From Those You Follow</h3>
@@ -34,7 +34,7 @@
           </div>-->
       <div class="list-group">
         <% feedPosts.forEach(post => { %>
-          <a href="/@<%= post.author.username %>/post/<%= post.slug %>" target="_blank" class="list-group-item list-group-item-action">
+          <a href="/@<%= post.author.username %>/post/<%= post.slug %>" class="list-group-item list-group-item-action" data-post-id="<%= post.$id %>">
             <h4><strong><%= post.title %></strong></h4>
             <hr>
             <img loading="lazy" class="avatar-tiny" src="<%= post.author.avatar %>"> <strong><%= post.author.username %></strong> ✦ <%= helpers.formatDate(new Date(post.$createdAt)) %>
@@ -58,6 +58,17 @@
                   <span>Visible To You</span>
                 </div>
               <% } %>
+
+							<div class="d-flex">
+								<div class="post-status mr-2">
+									<i class="material-icons mr-1">favorite</i>
+									<span class="likes-count"><%= helpers.formatNumber(post.likesCount) %></span>
+								</div>
+								<div class="post-status">
+									<i class="material-icons mr-1">bookmark</i>
+									<span class="bookmarks-count"><%= helpers.formatNumber(post.bookmarksCount) %></span>
+								</div>
+							</div>
             </div>
           </a>
         <% }) %>
@@ -72,7 +83,7 @@
       <!-- TODO: Add a list of random users for current user to follow -->
     <% } %>
   </div>
-  
+
   <%- include('partials/footer') %>
 </body>
 </html>

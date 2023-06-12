@@ -80,7 +80,7 @@ export default class Bookmark {
 		axios.post(`/removeBookmarkFrom/${postId}`, { _csrf: this._csrf }).then(response => {
 			this.bookmarkButton.setAttribute('data-post-bookmark-status', false);
 			this.showUnbookmark();
-			iziToast.success({ position: 'bottomLeft', timeout: 3e3, message: response.data.message });
+			iziToast.info({ position: 'bottomLeft', timeout: 3e3, message: response.data.message });
 		}).catch(error => {
 			this.showPreviousBookmarkState(postBookmarkStatus);
 			this.handleErrorResponse(error);

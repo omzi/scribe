@@ -98,7 +98,7 @@ export default class Search {
         <div class="list-group-item active"><strong>Search Results</strong> (${posts.length > 1 ? `${posts.length} items found` : '1 item found'})</div>
 
         ${posts.map(post => {
-          return `<a href="/@${post.author.username}/post/${post.slug}" target="_blank" class="list-group-item list-group-item-action">
+          return `<a href="/@${post.author.username}/post/${post.slug}" target="_blank" class="list-group-item list-group-item-action" data-post-id="${post.$id}">
               <h4><strong>${post.title}</strong></h4>
               <hr>
               <img loading="lazy" class="avatar-tiny" src="${post.author.avatar}"> <strong>${post.author.username}</strong> ✦ ${this.formatPostDate(new Date(post.$createdAt))}
@@ -126,11 +126,11 @@ export default class Search {
                 <div class="d-flex">
                   <div class="post-status mr-2">
                     <i class="material-icons mr-1">favorite</i>
-                    <span>${this.formatNumber(post.likesCount)}</span>
+                    <span class="likes-count">${this.formatNumber(post.likesCount)}</span>
                   </div>
                   <div class="post-status">
                     <i class="material-icons mr-1">bookmark</i>
-                    <span>${this.formatNumber(post.bookmarksCount)}</span>
+                    <span class="bookmarks-count">${this.formatNumber(post.bookmarksCount)}</span>
                   </div>
                 </div>
               </div>

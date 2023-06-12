@@ -12,7 +12,7 @@
       <% if (userPosts.length) { %>
         <div class="list-group">
           <% userPosts.forEach(post => { %>
-            <a href="/@<%= post.author.username %>/post/<%= post.slug %>" target="_blank" class="list-group-item list-group-item-action">
+            <a href="/@<%= post.author.username %>/post/<%= post.slug %>" target="_blank" class="list-group-item list-group-item-action" data-post-id="<%= post.$id %>">
               <h4><strong><%= post.title %></strong></h4>
               <hr>
               <img loading="lazy" class="avatar-tiny" src="<%= post.author.avatar %>"> <strong><%= post.author.username %></strong> ✦ <%= helpers.formatDate(new Date(post.$createdAt)) %>
@@ -38,15 +38,15 @@
                 <% } %>
 
                 <div class="d-flex">
-                  <div class="post-status mr-2">
-                    <i class="material-icons mr-1">favorite</i>
-                    <span><%= helpers.formatNumber(post.likesCount) %></span>
-                  </div>
-                  <div class="post-status">
-                    <i class="material-icons mr-1">bookmark</i>
-                    <span><%= helpers.formatNumber(post.bookmarksCount) %></span>
-                  </div>
-                </div>
+									<div class="post-status mr-2">
+										<i class="material-icons mr-1">favorite</i>
+										<span class="likes-count"><%= helpers.formatNumber(post.likesCount) %></span>
+									</div>
+									<div class="post-status">
+										<i class="material-icons mr-1">bookmark</i>
+										<span class="bookmarks-count"><%= helpers.formatNumber(post.bookmarksCount) %></span>
+									</div>
+								</div>
               </div>
             </a>
           <% }) %>

@@ -43,28 +43,30 @@ export class Like {
 	}
 
 	create() {
-		return new Promise<void>(async (resolve, reject) => {
+		return new Promise<string>(async (resolve, reject) => {
 			this.sanitizeData();
 			await this.validate('create');
 
 			if (!this.errors.length) {
-				await appwrite.createDocument(config.LIKES_COLLECTION_ID, uuid(), {
+				(await appwrite.createDocument(config.LIKES_COLLECTION_ID, uuid(), {
 					postId: this.postId!,
 					userId: this.currentUserId
-				});
-				resolve();
+				})) as LikeDocument;
+
+				resolve(this.requestedPostId);
 			} else reject(this.errors);
 		});
 	}
 
 	delete() {
-		return new Promise<void>(async (resolve, reject) => {
+		return new Promise<string>(async (resolve, reject) => {
 			this.sanitizeData();
 			await this.validate('delete');
 
 			if (!this.errors.length) {
 				await appwrite.deleteDocument(config.LIKES_COLLECTION_ID, this.likeId!);
-				resolve();
+
+				resolve(this.requestedPostId);
 			} else reject(this.errors);
 		});
 	}
@@ -112,5 +114,15 @@ export class Like {
 				reject();
 			}
 		});
+	}
+
+	static async updateLikesCount(postId: string) {
+		const likes = (await appwrite.findDocuments(config.LIKES_COLLECTION_ID, [Query.equal('postId', postId)])) as LikeDocument[];
+		const likesCount = likes.length;
+
+		// Update the likesCount attribute of the post in the Posts collection
+		const response = await appwrite.updateDocument(config.POSTS_COLLECTION_ID, postId, { likesCount });
+
+		return response;
 	}
 }

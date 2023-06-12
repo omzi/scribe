@@ -80,7 +80,7 @@ export default class Like {
 		axios.post(`/removeLikeFrom/${postId}`, { _csrf: this._csrf }).then(response => {
       this.likeButton.setAttribute('data-post-like-status', false);
 			this.showUnlike();
-			iziToast.success({ position: 'bottomLeft', timeout: 3e3, message: response.data.message });
+			iziToast.info({ position: 'bottomLeft', timeout: 3e3, message: response.data.message });
     }).catch(error => {
 			this.showPreviousLikeState(postLikeStatus);
 			this.handleErrorResponse(error);

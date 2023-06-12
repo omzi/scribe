@@ -1,3 +1,4 @@
+import './realtime';
 import Like from "./modules/like";
 import Bookmark from "./modules/bookmark";
 import Search from "./modules/search";

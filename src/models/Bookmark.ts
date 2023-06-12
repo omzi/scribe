@@ -43,7 +43,7 @@ export class Bookmark {
 	}
 
 	create() {
-		return new Promise<void>(async (resolve, reject) => {
+		return new Promise<string>(async (resolve, reject) => {
 			this.sanitizeData();
 			await this.validate('create');
 
@@ -52,19 +52,21 @@ export class Bookmark {
 					postId: this.postId!,
 					userId: this.currentUserId
 				});
-				resolve();
+
+				resolve(this.requestedPostId);
 			} else reject(this.errors);
 		});
 	}
 
 	delete() {
-		return new Promise<void>(async (resolve, reject) => {
+		return new Promise<string>(async (resolve, reject) => {
 			this.sanitizeData();
 			await this.validate('delete');
 
 			if (!this.errors.length) {
 				await appwrite.deleteDocument(config.BOOKMARKS_COLLECTION_ID, this.bookmarkId!);
-				resolve();
+
+				resolve(this.requestedPostId);
 			} else reject(this.errors);
 		});
 	}
@@ -112,5 +114,15 @@ export class Bookmark {
 				reject();
 			}
 		});
+	}
+
+	static async updateBookmarksCount(postId: string) {
+		const bookmarks = (await appwrite.findDocuments(config.BOOKMARKS_COLLECTION_ID, [Query.equal('postId', postId)])) as BookmarkDocument[];
+		const bookmarksCount = bookmarks.length;
+
+		// Update the bookmarksCount attribute of the post in the Posts collection
+		const response = await appwrite.updateDocument(config.POSTS_COLLECTION_ID, postId, { bookmarksCount });
+
+		return response;
 	}
 }
