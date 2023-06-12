@@ -13,8 +13,7 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "sourceMap": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+		"skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "pretty": true,
@@ -26,10 +25,7 @@
 		"paths": {
 			"@controllers/*": ["controllers/*"],
 			"@interfaces/*": ["interfaces/*"],
-			"@middlewares/*": ["middlewares/*"],
 			"@models/*": ["models/*"],
-			"@routes/*": ["routes/*"],
-			"@schemas/*": ["schemas/*"],
 			"@utils/*": ["utils/*"],
 			"@root/*": ["*"]
 		}
