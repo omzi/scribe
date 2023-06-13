@@ -1,11 +1,7 @@
   <%- include('messages') %>
 
   <header class="header-bar mb-3">
-    <% if (user) { %>
-    <div class="d-flex align-items-center justify-content-between p-3">
-    <% } else { %>
-    <div class="container d-flex align-items-center justify-content-between p-3">
-    <% } %>
+    <div class="<%= user ? '' : 'container ' %>d-flex align-items-center justify-content-between p-3 flex-column flex-sm-row">
       <h4 class="my-0 mr-md-auto font-weight-normal d-flex align-items-center">
         <img loading="lazy" class="logo" src="/images/logo-white.png">
         <a href="/" class="text-white logo">Scribe</a>
@@ -36,7 +32,7 @@
               class="material-icons">search</i></a>
           <form action="/login" method="POST" class="mb-0">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          
+
             <!-- For Desktop -->
             <div class="d-none d-lg-block">
               <div class="row align-items-center">
@@ -52,7 +48,7 @@
               </div>
             </div>
           </form>
-          
+
           <form action="/login" method="POST" class="mb-0 d-block d-lg-none">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <!-- For Tablets & Smartphones -->
