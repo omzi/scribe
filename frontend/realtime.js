@@ -1,5 +1,11 @@
-const eventSource = new EventSource('/realtime');
+import { NativeEventSource, EventSourcePolyfill } from 'event-source-polyfill';
+const EventSource = NativeEventSource || EventSourcePolyfill;
+import { ClientJS } from 'clientjs';
 
+const fingerprint = new ClientJS().getFingerprint();
+// console.log('Device FingerPrint :>>', fingerprint);
+
+const eventSource = new EventSource(`/realtime?clientFingerprint=${fingerprint}`);
 
 eventSource.addEventListener('updateLikesCount', (event) => {
 	const eventData = JSON.parse(event.data);
@@ -22,18 +28,14 @@ eventSource.addEventListener('updateBookmarksCount', (event) => {
 });
 
 eventSource.addEventListener('liveUsers', (event) => {
-	const eventData = JSON.parse(event.data); // Parse the JSON data
-	const eventString = event.type; // Get the event type as a string
+	const eventData = JSON.parse(event.data);
 
-	// Handle the event and data
-	console.log('Received Event ::', eventString);
-	console.log('Received Data ::', eventData);
+	console.log('Live Users :>>', eventData);
 });
 
 // Event handler for receiving SSE events
-eventSource.onmessage = (event) => {
-	console.log('Received Event :>>', event);
-	console.log('Received Event Data :>>', event.data);
+eventSource.onopen = (event) => {
+	console.log('Connected to BackEnd successfully :>>', event);
 };
 
 // Event handler for SSE connection error

@@ -2,7 +2,6 @@
 import { Request, Response } from 'express';
 import { eventEmitter } from '@utils/eventBus';
 import { EventEmitter } from 'events';
-import { generateRandomId } from '@utils/generateRandomId';
 import { SessionUser } from '@interfaces/auth.interface';
 import { PostDocument } from '@interfaces/post.interface';
 import { Like } from '@models/Like';
@@ -14,8 +13,14 @@ export let connectedClients: {
 	userData: SessionUser | Record<string, never>;
 }[] = [];
 
+type EventSourceData = {
+	id?: string | number;
+	event: string;
+	data: any;
+};
+
 class Realtime extends EventEmitter {
-	initial: any[];
+	initial: EventSourceData[];
 	options: { isSerialized: boolean; isCompressed: boolean };
 	id: number;
 
@@ -56,18 +61,28 @@ class Realtime extends EventEmitter {
 		// Increase number of event listeners on init
 		this.setMaxListeners(this.getMaxListeners() + 2);
 
-		const clientId = generateRandomId(24);
-		const newClient = {
-			id: clientId,
-			isAuthenticated: req.session.user ? true : false,
-			userData: req.session.user ?? {}
-		};
+		const clientFingerprint = req.query.clientFingerprint;
+		console.log('clientFingerprint :>>', clientFingerprint);
 
-		connectedClients.push(newClient);
+		const existingClient = connectedClients.find(client => client.id === clientFingerprint);
+
+		if (!existingClient) {
+			const newClient = {
+				id: clientFingerprint as string,
+				isAuthenticated: req.session.user ? true : false,
+				userData: req.session.user ?? {}
+			};
+
+			connectedClients.push(newClient);
+		} else {
+			existingClient.isAuthenticated = req.session.user ? true : false;
+			existingClient.userData = req.session.user ?? {};
+		}
+
 		console.log('Connected Clients :>>', connectedClients);
 		eventEmitter.emit('liveUsers', connectedClients);
 
-		const dataListener = (data: any) => {
+		const dataListener = (data: EventSourceData) => {
 			const id = data.id ? data.id : this.id++;
 			const event = data.event ? `event: ${data.event}\n` : '';
 			const serializedData = JSON.stringify(data.data);
@@ -77,7 +92,7 @@ class Realtime extends EventEmitter {
 		};
 
 		const serializeListener = (data: any[]) => {
-			const serializedData = data.map((msg, index) => `id: ${this.id + index}\ndata: ${JSON.stringify(msg)}\n`).join('');
+			const serializedData = data.map((message, idx) => `id: ${this.id + idx}\ndata: ${JSON.stringify(message)}\n`).join('');
 
 			res.write(serializedData);
 		};
@@ -89,7 +104,7 @@ class Realtime extends EventEmitter {
 			if (this.options.isSerialized) {
 				this.serialize(this.initial);
 			} else {
-				this.send(this.initial);
+				this.send(this.initial as unknown as EventSourceData);
 			}
 		}
 
@@ -97,23 +112,23 @@ class Realtime extends EventEmitter {
 			this.removeListener('data', dataListener);
 			this.removeListener('serialize', serializeListener);
 			this.setMaxListeners(this.getMaxListeners() - 2);
-			connectedClients = connectedClients.filter(client => client.id !== clientId);
+			connectedClients = connectedClients.filter(client => client.id !== clientFingerprint);
 		});
 	}
 
-	updateInit(data: any[]) {
+	updateInitialData(data: any[]) {
 		this.initial = Array.isArray(data) ? data : [data];
 	}
 
-	dropInit() {
+	dropInitialData() {
 		this.initial = [];
 	}
 
-	send(data: any, event?: string, id?: string | number) {
+	send({ data, event, id }: EventSourceData) {
 		this.emit('data', { data, event, id });
 	}
 
-	serialize(data: any[]) {
+	serialize(data: EventSourceData[]) {
 		if (Array.isArray(data)) {
 			this.emit('serialize', data);
 		} else {
@@ -126,7 +141,7 @@ export const realtime: Realtime = new Realtime();
 
 // Listen for server events
 eventEmitter.on('liveUsers', data => {
-	realtime.send(data, 'liveUsers');
+	realtime.send({ data, event: 'liveUsers' });
 });
 
 eventEmitter.on('updateLikesCount', async postId => {
@@ -136,7 +151,7 @@ eventEmitter.on('updateLikesCount', async postId => {
 		likesCount: updateResponse.likesCount
 	};
 
-	realtime.send(responseData, 'updateLikesCount');
+	realtime.send({ data: responseData, event: 'updateLikesCount' });
 });
 
 eventEmitter.on('updateBookmarksCount', async postId => {
@@ -146,5 +161,5 @@ eventEmitter.on('updateBookmarksCount', async postId => {
 		bookmarksCount: updateResponse.bookmarksCount
 	};
 
-	realtime.send(responseData, 'updateBookmarksCount');
+	realtime.send({ data: responseData, event: 'updateBookmarksCount' });
 });
