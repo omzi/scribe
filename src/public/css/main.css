@@ -91,14 +91,14 @@ i.material-icons {
 body {
   background-color: #000;
   color: #00FFDD;
-  font-family: "Satoshi", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Satoshi Regular", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: calc(100vh - 120px);
   overflow-x: hidden;
   margin: 0 0 120px;
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
-  font-family: "Syne", Arial, Helvetica, sans-serif;
+  font-family: "Syne ExtraBold", Arial, Helvetica, sans-serif;
   font-weight: 900 !important;
 }
 
@@ -189,7 +189,7 @@ input[name="item"]:hover {
   background-color: #fff;
 }
 
-.nav-tabs .nav-link:hover {
+.nav-tabs .nav-link:not(.active):hover {
   background-color: rgba(255, 255, 255, 0.25);
   color: #fff;
 }
@@ -524,17 +524,13 @@ input[name="item"]:hover {
   vertical-align: inherit;
 }
 
-.header-bar {
-  /* background-color: rgba(41, 41, 41, 0.45); */
-}
-
 img.logo {
   height: 35px;
   margin-right: 15px;
 }
 
 a.logo {
-  font-family: "Beyno", serif;
+  font-family: "Beyno Regular", serif;
   text-decoration: none !important;
 }
 
@@ -583,7 +579,7 @@ a.logo {
   display: flex;
   color: #fff;
   cursor: pointer;
-  font-weight: 500;
+	font-family: "Satoshi Bold", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin-right: 0.75em;
   margin-bottom: 0.375em;
 }
@@ -686,7 +682,7 @@ a.logo {
 
 .form-control-title {
   font-size: 2rem;
-  font-weight: 500;
+	font-family: "Satoshi Bold", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .body-content {
@@ -806,7 +802,7 @@ textarea.form-control {
   width: 100%;
   text-align: left;
   outline: 0;
-  font-weight: 300;
+	font-family: "Satoshi Light", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   border: 1px solid transparent;
   background-color: rgba(110, 110, 110, 0.4);
   color: #fff;
@@ -1221,34 +1217,12 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
-  font-weight: 300;
+	font-family: "Satoshi Light", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   height: 120px;
 }
 
 .footer__heart {
   color: #00FFDD;
-}
-
-.footer {
-  color: #fff;
-  display: none;
-  padding: 1.8rem;
-  text-align: center;
-  font-family: 'Futura LT Light', Arial, Helvetica, sans-serif;
-  font-size: 1.6rem;
-  border-radius: 0.8rem;
-  position: fixed;
-  bottom: 1.6rem;
-  left: 1.2rem;
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
-  width: 40rem;
-  letter-spacing: 0.05rem;
-  box-shadow: 0 0.3rem 0.1rem -0.2rem rgba(0, 0, 0, 0.2), 0 0.2rem 0.2rem 0 rgba(0, 0, 0, 0.14), 0 0.1rem 0.5rem 0 rgba(0, 0, 0, 0.12);
-  background-color: rgb(0, 0, 0, 0.35);
-  -webkit-backdrop-filter: blur(2rem);
-  backdrop-filter: blur(2rem);
 }
 
 .footer__divider {
@@ -1305,8 +1279,8 @@ footer {
 }
 
 .search-form .input {
-  font-size: 51px;
-  font-weight: 500;
+  font-size: 50px;
+  font-family: "Satoshi Bold", 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #fff;
   background: none;
   border: 0;
